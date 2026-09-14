@@ -6,7 +6,7 @@
     { "year": 2012, "who": "Torben",   "where": "Konstanz",         "game": "Kicker" },
     { "year": 2013, "who": "Falk",     "where": "Bispingen",        "game": "Kartfahren" },
     { "year": 2014, "who": "Benny",    "where": "Goslar",           "game": "" },
-    { "year": 2015, "who": "Thorsten", "where": "Bonn",             "game": "" },
+    { "year": 2015, "who": "Thorsten", "where": "Bonn",             "game": "nicht nötig" },
     { "year": 2016, "who": "Lars",     "where": "Hannover",         "game": "Lasertag" },
     { "year": 2017, "who": "Torben",   "where": "Bremerhaven",      "game": "Bierdeckel" },
     { "year": 2018, "who": "Lars",     "where": "Quedlinburg",      "game": "Bogenschiessen" },
