@@ -3,7 +3,7 @@
   "version": 3,
   "fahrten": [
     { "year": 2011, "who": "Ben",      "where": "Wernigerode",      "game": "Bowling",              "pdf": false, "lon": 10.786, "lat": 51.834 },
-    { "year": 2012, "who": "Torben",   "where": "Konstanz",         "game": "Kicker",        "pdf": false, "lon": 9.175,  "lat": 47.660 },
+    { "year": 2012, "who": "Torben",   "where": "Konstanz",         "game": "Kicker",        "pdf": true, "lon": 9.175,  "lat": 47.660 },
     { "year": 2013, "who": "Falk",     "where": "Bispingen",        "game": "Kartfahren",    "pdf": true,  "lon": 9.992,  "lat": 53.087 },
     { "year": 2014, "who": "Benny",    "where": "Goslar",           "game": "",              "pdf": true,  "lon": 10.428, "lat": 51.906 },
     { "year": 2015, "who": "Thorsten", "where": "Bonn",             "game": "nicht nötig",              "pdf": true,  "lon": 7.098,  "lat": 50.737 },
