@@ -33,7 +33,6 @@
     padding:32px 16px 64px;
   }
   .wrap{max-width:960px;margin:0 auto}
-
   header{
     display:flex;align-items:center;gap:20px;
     padding:8px 4px 24px;
@@ -44,7 +43,6 @@
   header .titles h1{margin:0;font-size:1.9rem;letter-spacing:.5px}
   header .titles h1 span{color:var(--gold)}
   header .titles p{margin:4px 0 0;color:var(--text-dim);font-size:.95rem}
-
   /* Status-Leiste */
   .status{
     display:flex;align-items:center;gap:10px;flex-wrap:wrap;
@@ -60,7 +58,6 @@
   .status .spacer{flex:1}
   .status .link{background:transparent;color:var(--gold-soft);text-decoration:underline;font-size:.8rem;padding:0;white-space:nowrap}
   .status .link:hover{color:var(--gold)}
-
   .toolbar{
     display:flex;flex-wrap:wrap;gap:12px;align-items:center;
     justify-content:space-between;margin-bottom:18px;
@@ -69,7 +66,6 @@
   .legend span{display:inline-flex;align-items:center;gap:7px}
   .dot{width:12px;height:12px;border-radius:3px;display:inline-block}
   .dot.r1{background:var(--rot1)} .dot.r2{background:var(--rot2)} .dot.r3{background:var(--rot3)}
-
   .tools{display:flex;flex-wrap:wrap;gap:8px}
   button{font-family:inherit;cursor:pointer;border:none;border-radius:8px;transition:.15s}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;font-size:.88rem;font-weight:600}
@@ -78,7 +74,6 @@
   .btn-add:hover{background:var(--gold-soft)}
   .btn-ghost{background:rgba(255,255,255,.05);color:var(--text-dim);border:1px solid var(--line)}
   .btn-ghost:hover{color:var(--text);background:rgba(255,255,255,.09)}
-
   .card{
     background:linear-gradient(180deg,var(--navy-800),var(--navy-700));
     border:1px solid var(--line);border-radius:14px;overflow:hidden;
@@ -94,7 +89,6 @@
   tbody td{padding:13px 18px;border-bottom:1px solid var(--line);font-size:.98rem;vertical-align:middle}
   tbody tr:last-child td{border-bottom:none}
   tbody tr:hover{background:rgba(255,255,255,.03)}
-
   .year{font-variant-numeric:tabular-nums;font-weight:700;position:relative;padding-left:26px;white-space:nowrap}
   .year::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:26px;border-radius:4px}
   tr.r1 .year::before{background:var(--rot1)}
@@ -103,24 +97,22 @@
   tr.r1 .year{color:#7fd3cd}
   tr.r2 .year{color:#b3a3e0}
   tr.r3 .year{color:#e0a184}
-
   .year-link{
-    color:inherit;text-decoration:none;cursor:pointer;border-bottom:2px solid currentColor;padding-bottom:1px;
-    transition:opacity .15s;
+    color:inherit;text-decoration:none;cursor:pointer;
+    border-bottom:2px solid currentColor;padding-bottom:1px;
+    display:inline-flex;align-items:center;gap:5px;transition:opacity .15s;
   }
-  .year-link:hover{opacity:0.8}
-
+  .year-link:hover{opacity:.8}
+  .year-link svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
   .who{font-weight:600}
   .muted{color:var(--text-dim);font-style:italic}
   .game{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
   .game svg{width:15px;height:15px;stroke:var(--gold-soft);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
-
   .actions{width:96px;text-align:right;white-space:nowrap}
   .icon-btn{background:transparent;color:var(--text-dim);padding:6px;border-radius:7px;line-height:0}
   .icon-btn:hover{background:rgba(255,255,255,.08);color:var(--text)}
   .icon-btn.del:hover{color:#e0776a}
   .icon-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-
   footer{margin-top:22px;color:var(--text-dim);font-size:.8rem;text-align:center;line-height:1.7}
   .reset{background:transparent;color:var(--text-dim);text-decoration:underline;font-size:.8rem;padding:0}
   .reset:hover{color:var(--gold-soft)}
@@ -131,7 +123,6 @@
   }
   .note-box b{color:var(--gold-soft);font-weight:600}
   .scroll-hint{display:none;font-size:.72rem;color:var(--text-dim);margin:8px 4px 0;text-align:right}
-
   .overlay{position:fixed;inset:0;background:rgba(4,9,16,.72);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
   .overlay.open{display:flex}
   .modal{width:100%;max-width:440px;background:var(--navy-800);border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:0 30px 60px rgba(0,0,0,.5)}
@@ -147,7 +138,6 @@
   .btn-cancel:hover{color:var(--text)}
   .btn-save{background:var(--gold);color:#1a1206;font-weight:600;padding:10px 18px}
   .btn-save:hover{background:var(--gold-soft)}
-
   @media(max-width:640px){
     header{flex-direction:column;text-align:center;gap:12px}
     .actions{width:auto}
@@ -157,9 +147,8 @@
 </head>
 <body>
 <div class="wrap">
-
   <header>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATcAAAElCAYAAACBPKWiAAD/S0lEQVR4nOz9d6Bl11nfD3+etdbe59w6vRdNkWak0ah3WZZkuTcwNtjGBhwIbxx+gZDwCyTkfUliE1qAAAkkgMEEG9vIXZYsdzWrSzMaTe+9t9v[...]
+    <img src="logo.png" alt="Stammtisch Logo">
     <div class="titles">
       <h1>Stammtisch<span>fahrten</span></h1>
       <p>Wer richtet aus? &ndash; Chronik seit 2011</p>
@@ -220,10 +209,11 @@
 
   <div class="note-box">
     Es entscheidet immer ein <b>Ausrichterspiel</b>, wer als N&auml;chstes ausrichten muss &ndash; bis alle einmal dran waren, dann geht es von vorne los.
+    Jahre mit unterstrichenem Datum verlinken auf das jeweilige <b>Programm-PDF</b>.
   </div>
 
   <footer>
-    <b style="color:var(--gold-soft)">So bleibt es für alle aktuell:</b> Zum dauerhaften Speichern die Liste <b>„data.json exportieren"</b> und die Datei im GitHub-Repo ersetzen (Commit). Beim[...]
+    <b style="color:var(--gold-soft)">So bleibt es für alle aktuell:</b> Zum dauerhaften Speichern die Liste <b>„data.json exportieren"</b> und die Datei im GitHub-Repo ersetzen (Commit). Beim nächsten Aufruf sehen alle den neuen Stand.<br>
     Lokale Änderungen liegen nur in diesem Browser, bis sie ins Repo übernommen werden. &middot;
     <button class="reset" onclick="reloadCentral()">Lokale Änderungen verwerfen</button>
   </footer>
@@ -264,6 +254,10 @@
   const STORAGE_KEY = "stammtischfahrten_v3";
   const DATA_URL = "data.json";
 
+  // Jahre, für die eine PDF unter Programme/JJJJ.pdf existiert.
+  // Nur diese Jahre werden in der Tabelle als Link dargestellt.
+  const PDF_YEARS = [2013, 2014, 2015, 2016, 2017, 2019, 2021, 2022, 2023, 2024, 2025, 2026];
+
   // Fallback, falls data.json nicht erreichbar ist (z. B. lokal per file:// geöffnet)
   const FALLBACK_DATA = [
     {year:2011, who:"Ben",      where:"Wernigerode",        game:""},
@@ -286,8 +280,8 @@
   ];
 
   let data = [];
-  let baseSig = "";       // Signatur des zuletzt geladenen zentralen Stands
-  let isDirty = false;    // gibt es lokale, noch nicht ins Repo übernommene Änderungen?
+  let baseSig = "";
+  let isDirty = false;
 
   function normalize(list){
     return (list||[])
@@ -308,7 +302,6 @@
     return JSON.stringify(sorted);
   }
 
-  // ---- Laden: zuerst zentrale data.json, dann lokalen Zustand berücksichtigen ----
   async function init(){
     let central = null;
     try{
@@ -323,20 +316,16 @@
       baseSig = sigOf(central);
       const local = readLocal();
       if(local && local.baseSig === baseSig && local.dirty){
-        // Nutzer hat lokale Änderungen auf demselben zentralen Stand -> behalten
         data = local.data; isDirty = true;
         setStatus("local", "Zentraler Stand unverändert, lokale Änderungen aktiv");
       }else if(local && local.dirty && local.baseSig !== baseSig){
-        // Zentrale Daten wurden im Repo aktualisiert, während lokale Änderungen bestehen
         data = local.data; isDirty = true;
-        setStatus("local", "Achtung: data.json im Repo wurde aktualisiert", true);
+        setStatus("local", "Achtung: data.json im Repo wurde aktualisiert");
       }else{
-        // Kein lokaler Stand oder nicht dirty -> zentralen Stand verwenden
         data = central; isDirty = false;
         setStatus("central", "aus data.json geladen");
       }
     }else{
-      // data.json nicht erreichbar -> lokal oder Fallback
       const local = readLocal();
       if(local){ data = local.data; baseSig = local.baseSig || ""; isDirty = !!local.dirty; }
       else { data = normalize(FALLBACK_DATA); baseSig = sigOf(data); isDirty = false; }
@@ -363,22 +352,19 @@
     else setStatus("central", "identisch mit data.json");
   }
 
-  function setStatus(mode, msg, showReload){
+  function setStatus(mode, msg){
     const bar = document.getElementById("statusBar");
-    const label = document.getElementById("statusLabel");
     const m = document.getElementById("statusMsg");
     const badge = document.getElementById("statusBadge");
     const reload = document.getElementById("reloadCentral");
     bar.className = "status " + mode;
     m.innerHTML = msg;
     if(mode === "central"){
-      label.textContent = "Zentraler Stand";
       badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span id="statusLabel">Zentraler Stand</span>';
       reload.style.display = "none";
     }else{
-      label.textContent = "Lokale Änderungen";
-      badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><span id="statusLabel">Lokale Än[...]
-      reload.style.display = (showReload || isDirty) ? "inline" : "inline";
+      badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><span id="statusLabel">Lokale Änderungen</span>';
+      reload.style.display = "inline";
     }
   }
 
@@ -393,18 +379,16 @@
     if(year <= 2024) return "r2";
     return "r3";
   }
+  function hasPDF(year){
+    return PDF_YEARS.includes(year);
+  }
 
   const editIcon = '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
-  const delIcon  = '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a[...]
-  const diceIcon = '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1[...]
+  const delIcon  = '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+  const diceIcon = '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg>';
+  const pdfIcon  = '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
 
   function esc(s){return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-
-  function hasPDF(year){
-    // Check if a PDF exists for the given year
-    const pdfYears = [2013, 2014, 2015, 2016, 2017, 2019, 2021, 2022, 2023, 2024, 2025, 2026];
-    return pdfYears.includes(year);
-  }
 
   function render(){
     data.sort((a,b)=>a.year-b.year);
@@ -413,21 +397,19 @@
     data.forEach((row, i)=>{
       const tr = document.createElement("tr");
       tr.className = rotationClass(row.year);
+
       const whoCell = row.who ? '<span class="who">'+esc(row.who)+'</span>'
         : (row.note ? '<span class="muted">'+esc(row.note)+'</span>' : '<span class="muted">offen</span>');
       const whereCell = row.where ? esc(row.where)
         : (row.note ? '' : '<span class="muted">noch offen</span>');
       const gameCell = row.game ? '<span class="game">'+diceIcon+esc(row.game)+'</span>'
         : (row.note ? '' : '<span class="muted">&ndash;</span>');
-      
-      // Make year clickable if PDF exists
-      let yearCell;
-      if(hasPDF(row.year)){
-        yearCell = '<a href="Programme/'+row.year+'.pdf" target="_blank" class="year-link">'+row.year+'</a>';
-      }else{
-        yearCell = row.year;
-      }
-      
+
+      // Jahr klickbar machen, wenn eine PDF hinterlegt ist
+      const yearCell = hasPDF(row.year)
+        ? '<a href="Programme/'+row.year+'.pdf" target="_blank" rel="noopener" class="year-link" title="Programm '+row.year+' (PDF)">'+row.year+pdfIcon+'</a>'
+        : row.year;
+
       tr.innerHTML =
         '<td class="year">'+yearCell+'</td>'+
         '<td>'+whoCell+'</td>'+
