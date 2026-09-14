@@ -1,79 +1,98 @@
 # Stammtischfahrten
 
-Eine einfache, eigenständige Webseite zur Chronik unserer jährlichen Stammtischfahrten – *est. 09*.
-Wer hat wann wo ausgerichtet, und welches **Ausrichterspiel** hat den nächsten Gastgeber bestimmt?
+Eine einfache Webseite zur Chronik unserer jährlichen Stammtischfahrten – *est. 09*.
+Wer hat wann wo ausgerichtet, welches **Ausrichterspiel** hat den nächsten Gastgeber bestimmt, und wo liegt das jeweilige **Programm-PDF**?
 
 ---
 
 ## Überblick
 
-Die gesamte Anwendung besteht aus **einer einzigen HTML-Datei** (`index.html`).
-Kein Server, kein Build, keine externen Abhängigkeiten – einfach im Browser öffnen.
-Das Logo ist als Base64-Data-URI direkt eingebettet, es werden also **keine Zusatzdateien** benötigt.
+Die Anwendung ist eine schlanke statische Webseite aus wenigen Dateien – kein Server, kein Build, keine Frameworks.
+Die Chronik wird zentral aus einer **`data.json`** geladen, sodass alle Besucher denselben Stand sehen.
+Änderungen lassen sich direkt im Browser vornehmen und als `data.json` exportieren, um sie ins Repo zu übernehmen.
 
 ## Features
 
 - **Chronik-Tabelle** mit den Spalten *Wann · Wer · Wo · Ausrichterspiel*
+- **Zentrale Daten** aus `data.json` – alle sehen denselben Stand (ideal für GitHub Pages)
 - **Direkt editierbar** im Browser: Einträge hinzufügen, bearbeiten und löschen
+- **Programm-PDFs**: Jahre mit hinterlegtem PDF werden als Link dargestellt und öffnen `Programme/JJJJ.pdf`
+- **Statusanzeige**: zeigt an, ob der zentrale Stand aktiv ist oder ungespeicherte lokale Änderungen bestehen
+- **Export / Import** der kompletten Liste als `data.json`
 - **Rotationen farblich hervorgehoben**
   - 1. Rotation · 2011–2016
   - 2. Rotation · 2017–2024
   - 3. Rotation · seit 2025
-- **Export / Import** der kompletten Liste als JSON-Datei (zum Sichern oder Teilen mit der Runde)
-- **Lokale Speicherung** im Browser (`localStorage`) – Änderungen bleiben zwischen Besuchen erhalten
-- Dunkelblaues Design mit dem Gold des Logos, reduzierte, stilisierte Icons
-- Responsiv – funktioniert auf Desktop und Smartphone
+- Dunkelblaues Design mit dem Gold des Logos, reduzierte, stilisierte SVG-Icons
+- Responsiv – auf dem Smartphone im Hochformat ist die Tabelle horizontal scrollbar
 
 ## Nutzung
 
-1. Repository klonen oder `index.html` herunterladen
-2. `index.html` im Browser öffnen (Doppelklick genügt)
+1. Repository klonen
+2. Die Dateien über einen Webserver ausliefern (nötig, damit `data.json` per `fetch` geladen werden kann)
 
 ```bash
 git clone <repo-url>
 cd stammtischfahrten
-# index.html im Browser öffnen
-```
-
-Optional per lokalem Webserver:
-
-```bash
 python3 -m http.server 8000
 # danach http://localhost:8000 im Browser aufrufen
 ```
 
-## Daten sichern & teilen
+> **Hinweis:** Beim reinen Doppelklick (Öffnen per `file://`) kann der Browser aus Sicherheitsgründen die `data.json` nicht laden.
+> Die Seite fällt dann auf einen eingebauten Ausgangsdatensatz zurück. Für den echten Betrieb daher GitHub Pages oder einen lokalen Webserver nutzen.
 
-Da `localStorage` nur pro Browser und Gerät gilt, gibt es zwei Buttons:
+## Daten pflegen (zentral über `data.json`)
 
-| Aktion     | Beschreibung                                                                 |
-|------------|------------------------------------------------------------------------------|
-| **Export** | Speichert die komplette Liste als `stammtischfahrten_JJJJ-MM-TT.json`.        |
-| **Import** | Lädt eine zuvor exportierte JSON-Datei und ersetzt die aktuelle Liste.        |
+Da GitHub Pages nur statische Dateien ausliefert, erfolgt das dauerhafte Speichern über einen Commit:
 
-So lässt sich der Stand dauerhaft sichern oder an die anderen aus der Runde weitergeben.
+1. In der Seite die Einträge **bearbeiten** (Hinzufügen / Ändern / Löschen). Die Statusleiste wechselt auf *Lokale Änderungen*.
+2. Button **„data.json exportieren"** klicken – es wird eine fertige `data.json` heruntergeladen.
+3. Diese Datei im Repo ersetzen und committen (am schnellsten direkt auf GitHub: Datei öffnen → **Edit** → **Commit changes**).
+4. Beim nächsten Aufruf sehen **alle** den neuen Stand.
 
-### Datenformat
+Mit **„Lokale Änderungen verwerfen"** lädt man jederzeit wieder den aktuellen Repo-Stand.
+
+### Statusanzeige
+
+| Zustand | Bedeutung |
+|---------|-----------|
+| 🟢 **Zentraler Stand** | Anzeige entspricht der `data.json` im Repo. |
+| 🟡 **Lokale Änderungen** | Es gibt Änderungen, die nur im Browser liegen und noch nicht ins Repo übernommen wurden. |
+
+## Programm-PDFs
+
+Zu einzelnen Fahrten kann ein Programm-PDF hinterlegt werden.
+
+- **Ablage:** Die PDFs liegen im Ordner **`Programme/`** und heißen nach dem Jahr, z. B. `Programme/2018.pdf`.
+- **Verlinkung:** Ob ein Jahr verlinkt wird, steuert das Feld **`"pdf": true`** des jeweiligen Eintrags in der `data.json`.
+  Verlinkte Jahre erscheinen unterstrichen mit kleinem PDF-Icon und öffnen die Datei in einem neuen Tab.
+- **Pflege ohne Code-Änderung:** Im Bearbeiten-Dialog gibt es die Checkbox **„Programm-PDF vorhanden"**.
+  Anhaken → `data.json` exportieren → committen. Die `index.html` muss dafür nicht angefasst werden.
+
+> **Wichtig:** Das Häkchen erzeugt nur den *Link*. Die PDF selbst muss vorher als `Programme/JJJJ.pdf` ins Repo hochgeladen werden,
+> sonst führt der Link ins Leere. GitHub Pages ist zudem case-sensitive – Ordner (`Programme`) und Dateinamen (`2018.pdf`) exakt so schreiben.
+
+## Datenformat
 
 ```json
 {
   "app": "stammtischfahrten",
-  "version": 2,
-  "exported": "2026-09-14T09:47:00.000Z",
+  "version": 3,
   "fahrten": [
-    { "year": 2012, "who": "Torben", "where": "Konstanz", "game": "Kicker" },
-    { "year": 2020, "who": "", "where": "", "game": "", "note": "Corona" }
+    { "year": 2018, "who": "Lars", "where": "Quedlinburg", "game": "Bogenschiessen", "pdf": true },
+    { "year": 2020, "who": "", "where": "", "game": "", "note": "Corona", "pdf": false }
   ]
 }
 ```
 
-| Feld    | Typ    | Beschreibung                                              |
-|---------|--------|----------------------------------------------------------|
-| `year`  | Zahl   | Jahr der Fahrt (bestimmt zugleich die Rotation)          |
-| `who`   | Text   | Ausrichter (kann leer sein)                              |
-| `where` | Text   | Ort (kann leer sein)                                     |
-| `game`  | Text   | Ausrichterspiel, das den nächsten Gastgeber bestimmt hat |
-| `note`  | Text   | Optional, z. B. `"Corona"` für ausgefallene Jahre        |
+| Feld    | Typ     | Beschreibung                                                      |
+|---------|---------|------------------------------------------------------------------|
+| `year`  | Zahl    | Jahr der Fahrt (bestimmt zugleich die Rotation)                  |
+| `who`   | Text    | Ausrichter (kann leer sein)                                      |
+| `where` | Text    | Ort (kann leer sein)                                             |
+| `game`  | Text    | Ausrichterspiel, das den nächsten Gastgeber bestimmt hat         |
+| `pdf`   | Boolean | `true`, wenn unter `Programme/JJJJ.pdf` ein Programm liegt       |
+| `note`  | Text    | Optional, z. B. `"Corona"` für ausgefallene Jahre                |
 
 ## Spielregel
 
@@ -82,21 +101,29 @@ bis alle einmal dran waren, dann geht es von vorne los. Jeder Durchlauf = eine R
 
 ## Anpassen
 
-- **Ausgangsdaten**: Das Array `DEFAULT_DATA` in `index.html` enthält die Standard-Chronik.
-- **Rotationsgrenzen**: Die Funktion `rotationClass(year)` legt fest, welches Jahr zu welcher Rotation gehört.
+- **Zentrale Daten**: Die Chronik steht in `data.json`. Der Ausgangsdatensatz `FALLBACK_DATA` in `index.html` dient nur als Notfall-Fallback (z. B. bei `file://`).
+- **Rotationsgrenzen**: Die Funktion `rotationClass(year)` in `index.html` legt fest, welches Jahr zu welcher Rotation gehört.
 - **Farben**: Die CSS-Variablen `--gold`, `--navy-*` sowie `--rot1/2/3` oben im `:root`-Block steuern das Farbschema.
+- **Logo**: Wird als externe Datei `logo.png` neben der `index.html` geladen.
 
 ## Technik
 
 - Reines HTML, CSS und Vanilla JavaScript – keine Frameworks
 - Icons als Inline-SVG
-- Logo eingebettet als Base64-Data-URI
+- Logo als externe `logo.png`
+- Chronik zentral in `data.json`, Zwischenspeicherung im Browser via `localStorage`
 
 ## Projektstruktur
 
 ```
 stammtischfahrten/
-├── index.html    # komplette Anwendung (inkl. eingebettetem Logo)
+├── index.html        # Anwendung (Oberfläche + Logik)
+├── data.json         # zentrale Chronik (wird beim Laden gelesen)
+├── logo.png          # Logo (extern eingebunden)
+├── Programme/        # Programm-PDFs, benannt nach Jahr
+│   ├── 2018.pdf
+│   ├── 2019.pdf
+│   └── ...
 └── README.md
 ```
 
