@@ -1,0 +1,23 @@
+{
+  "app": "stammtischfahrten",
+  "version": 2,
+  "fahrten": [
+    { "year": 2011, "who": "Ben",      "where": "Wernigerode",      "game": "" },
+    { "year": 2012, "who": "Torben",   "where": "Konstanz",         "game": "Kicker" },
+    { "year": 2013, "who": "Falk",     "where": "Bispingen",        "game": "Kartfahren" },
+    { "year": 2014, "who": "Benny",    "where": "Goslar",           "game": "" },
+    { "year": 2015, "who": "Thorsten", "where": "Bonn",             "game": "" },
+    { "year": 2016, "who": "Lars",     "where": "Hannover",         "game": "Lasertag" },
+    { "year": 2017, "who": "Torben",   "where": "Bremerhaven",      "game": "Bierdeckel" },
+    { "year": 2018, "who": "Lars",     "where": "Quedlinburg",      "game": "Bogenschiessen" },
+    { "year": 2019, "who": "Ben",      "where": "Lüneburger Heide", "game": "" },
+    { "year": 2020, "who": "",         "where": "",                 "game": "", "note": "Corona" },
+    { "year": 2021, "who": "Thorsten", "where": "Meerbusch",        "game": "Poker" },
+    { "year": 2022, "who": "Benny",    "where": "Bremen",           "game": "Hafenspiele" },
+    { "year": 2023, "who": "Matze",    "where": "Gütersloh",        "game": "" },
+    { "year": 2024, "who": "Falk",     "where": "Hamburg",          "game": "Bashroom" },
+    { "year": 2025, "who": "Thorsten", "where": "Köln",             "game": "Minigolf" },
+    { "year": 2026, "who": "Benny",    "where": "Paderborn",        "game": "Bowling" },
+    { "year": 2027, "who": "Matze",    "where": "",                 "game": "" }
+  ]
+}
