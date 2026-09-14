@@ -130,9 +130,16 @@
   .modal h2 svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.8}
   .field{margin-bottom:16px}
   .field label{display:block;font-size:.75rem;letter-spacing:.8px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
-  .field input{width:100%;padding:10px 12px;border-radius:8px;background:var(--navy-900);border:1px solid var(--line);color:var(--text);font-size:.95rem;font-family:inherit}
+  .field input[type=number],.field input[type=text]{width:100%;padding:10px 12px;border-radius:8px;background:var(--navy-900);border:1px solid var(--line);color:var(--text);font-size:.95rem;font-family:inherit}
   .field input:focus{outline:none;border-color:var(--gold)}
   .hint{font-size:.72rem;color:var(--text-dim);margin-top:5px}
+  /* Checkbox-Zeile */
+  .check{display:flex;align-items:flex-start;gap:10px;background:var(--navy-900);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .check input{width:18px;height:18px;margin-top:1px;accent-color:var(--gold);cursor:pointer;flex:0 0 auto}
+  .check .ctext{font-size:.9rem}
+  .check .ctext .ctitle{font-weight:600}
+  .check .ctext .csub{font-size:.72rem;color:var(--text-dim);margin-top:2px}
+  .check .ctext .csub code{color:var(--gold-soft)}
   .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px}
   .btn-cancel{background:transparent;color:var(--text-dim);padding:10px 16px;border:1px solid var(--line)}
   .btn-cancel:hover{color:var(--text)}
@@ -209,7 +216,7 @@
 
   <div class="note-box">
     Es entscheidet immer ein <b>Ausrichterspiel</b>, wer als N&auml;chstes ausrichten muss &ndash; bis alle einmal dran waren, dann geht es von vorne los.
-    Jahre mit unterstrichenem Datum verlinken auf das jeweilige <b>Programm-PDF</b>.
+    Jahre mit unterstrichenem Datum verlinken auf das jeweilige <b>Programm-PDF</b> unter <code>Programme/JJJJ.pdf</code>.
   </div>
 
   <footer>
@@ -243,6 +250,15 @@
       <input type="text" id="fGame" placeholder="z. B. Bowling (kann leer bleiben)">
       <div class="hint">Das Spiel, das den nächsten Ausrichter bestimmt hat.</div>
     </div>
+    <div class="field">
+      <label class="check">
+        <input type="checkbox" id="fPdf">
+        <span class="ctext">
+          <span class="ctitle">Programm-PDF vorhanden</span>
+          <span class="csub" id="pdfSub">Das Jahr wird als Link dargestellt und öffnet <code>Programme/JJJJ.pdf</code>.</span>
+        </span>
+      </label>
+    </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
       <button class="btn-save" onclick="saveEntry()">Speichern</button>
@@ -254,29 +270,25 @@
   const STORAGE_KEY = "stammtischfahrten_v3";
   const DATA_URL = "data.json";
 
-  // Jahre, für die eine PDF unter Programme/JJJJ.pdf existiert.
-  // Nur diese Jahre werden in der Tabelle als Link dargestellt.
-  const PDF_YEARS = [2013, 2014, 2015, 2016, 2017, 2019, 2021, 2022, 2023, 2024, 2025, 2026];
-
   // Fallback, falls data.json nicht erreichbar ist (z. B. lokal per file:// geöffnet)
   const FALLBACK_DATA = [
-    {year:2011, who:"Ben",      where:"Wernigerode",        game:""},
-    {year:2012, who:"Torben",   where:"Konstanz",           game:"Kicker"},
-    {year:2013, who:"Falk",     where:"Bispingen",          game:"Kartfahren"},
-    {year:2014, who:"Benny",    where:"Goslar",             game:""},
-    {year:2015, who:"Thorsten", where:"Bonn",               game:""},
-    {year:2016, who:"Lars",     where:"Hannover",           game:"Lasertag"},
-    {year:2017, who:"Torben",   where:"Bremerhaven",        game:"Bierdeckel"},
-    {year:2018, who:"Lars",     where:"Quedlinburg",        game:"Bogenschiessen"},
-    {year:2019, who:"Ben",      where:"Lüneburger Heide",   game:""},
-    {year:2020, who:"",         where:"", game:"", note:"Corona"},
-    {year:2021, who:"Thorsten", where:"Meerbusch",          game:"Poker"},
-    {year:2022, who:"Benny",    where:"Bremen",             game:"Hafenspiele"},
-    {year:2023, who:"Matze",    where:"Gütersloh",          game:""},
-    {year:2024, who:"Falk",     where:"Hamburg",            game:"Bashroom"},
-    {year:2025, who:"Thorsten", where:"Köln",               game:"Minigolf"},
-    {year:2026, who:"Benny",    where:"Paderborn",          game:"Bowling"},
-    {year:2027, who:"Matze",    where:"", game:""}
+    {year:2011, who:"Ben",      where:"Wernigerode",        game:"",              pdf:false},
+    {year:2012, who:"Torben",   where:"Konstanz",           game:"Kicker",        pdf:false},
+    {year:2013, who:"Falk",     where:"Bispingen",          game:"Kartfahren",    pdf:true},
+    {year:2014, who:"Benny",    where:"Goslar",             game:"",              pdf:true},
+    {year:2015, who:"Thorsten", where:"Bonn",               game:"",              pdf:true},
+    {year:2016, who:"Lars",     where:"Hannover",           game:"Lasertag",      pdf:true},
+    {year:2017, who:"Torben",   where:"Bremerhaven",        game:"Bierdeckel",    pdf:true},
+    {year:2018, who:"Lars",     where:"Quedlinburg",        game:"Bogenschiessen",pdf:true},
+    {year:2019, who:"Ben",      where:"Lüneburger Heide",   game:"",              pdf:true},
+    {year:2020, who:"",         where:"", game:"", note:"Corona",                 pdf:false},
+    {year:2021, who:"Thorsten", where:"Meerbusch",          game:"Poker",         pdf:true},
+    {year:2022, who:"Benny",    where:"Bremen",             game:"Hafenspiele",   pdf:true},
+    {year:2023, who:"Matze",    where:"Gütersloh",          game:"",              pdf:true},
+    {year:2024, who:"Falk",     where:"Hamburg",            game:"Bashroom",      pdf:true},
+    {year:2025, who:"Thorsten", where:"Köln",               game:"Minigolf",      pdf:true},
+    {year:2026, who:"Benny",    where:"Paderborn",          game:"Bowling",       pdf:true},
+    {year:2027, who:"Matze",    where:"", game:"",                                pdf:false}
   ];
 
   let data = [];
@@ -291,7 +303,8 @@
           year: parseInt(x.year,10),
           who: (x.who||"").toString(),
           where: (x.where||"").toString(),
-          game: (x.game||"").toString()
+          game: (x.game||"").toString(),
+          pdf: (x.pdf === true || x.pdf === "true")
         };
         if(x.note) o.note = x.note.toString();
         return o;
@@ -379,9 +392,6 @@
     if(year <= 2024) return "r2";
     return "r3";
   }
-  function hasPDF(year){
-    return PDF_YEARS.includes(year);
-  }
 
   const editIcon = '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
   const delIcon  = '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
@@ -405,8 +415,8 @@
       const gameCell = row.game ? '<span class="game">'+diceIcon+esc(row.game)+'</span>'
         : (row.note ? '' : '<span class="muted">&ndash;</span>');
 
-      // Jahr klickbar machen, wenn eine PDF hinterlegt ist
-      const yearCell = hasPDF(row.year)
+      // Jahr klickbar machen, wenn für dieses Jahr eine PDF markiert ist
+      const yearCell = row.pdf
         ? '<a href="Programme/'+row.year+'.pdf" target="_blank" rel="noopener" class="year-link" title="Programm '+row.year+' (PDF)">'+row.year+pdfIcon+'</a>'
         : row.year;
 
@@ -423,6 +433,13 @@
     });
   }
 
+  function refreshPdfSub(){
+    const y = parseInt(document.getElementById("fYear").value,10);
+    const sub = document.getElementById("pdfSub");
+    if(y) sub.innerHTML = 'Das Jahr wird als Link dargestellt und öffnet <code>Programme/'+y+'.pdf</code>.';
+    else sub.innerHTML = 'Das Jahr wird als Link dargestellt und öffnet <code>Programme/JJJJ.pdf</code>.';
+  }
+
   function openModal(i){
     const idx = (typeof i === "number") ? i : -1;
     document.getElementById("editIndex").value = idx;
@@ -432,13 +449,16 @@
       document.getElementById("fWho").value   = data[idx].who || (data[idx].note || "");
       document.getElementById("fWhere").value = data[idx].where || "";
       document.getElementById("fGame").value  = data[idx].game || "";
+      document.getElementById("fPdf").checked = !!data[idx].pdf;
     }else{
       const next = data.length ? Math.max(...data.map(d=>d.year))+1 : 2011;
       document.getElementById("fYear").value  = next;
       document.getElementById("fWho").value   = "";
       document.getElementById("fWhere").value = "";
       document.getElementById("fGame").value  = "";
+      document.getElementById("fPdf").checked = false;
     }
+    refreshPdfSub();
     document.getElementById("overlay").classList.add("open");
     document.getElementById("fYear").focus();
   }
@@ -450,8 +470,9 @@
     const who = document.getElementById("fWho").value.trim();
     const where = document.getElementById("fWhere").value.trim();
     const game = document.getElementById("fGame").value.trim();
+    const pdf = document.getElementById("fPdf").checked;
     if(!year){ alert("Bitte ein Jahr angeben."); return; }
-    const entry = {year, who, where, game};
+    const entry = {year, who, where, game, pdf};
     if(idx>=0){
       if(!who && data[idx].note) entry.note = data[idx].note;
       data[idx] = entry;
@@ -468,7 +489,7 @@
   }
 
   function exportData(){
-    const payload = { app:"stammtischfahrten", version:2, fahrten:data };
+    const payload = { app:"stammtischfahrten", version:3, fahrten:data };
     const blob = new Blob([JSON.stringify(payload, null, 2) + "\n"], {type:"application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -496,6 +517,7 @@
     reader.readAsText(file);
   }
 
+  document.getElementById("fYear").addEventListener("input", refreshPdfSub);
   document.getElementById("overlay").addEventListener("click", e=>{ if(e.target.id==="overlay") closeModal(); });
   document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
 
