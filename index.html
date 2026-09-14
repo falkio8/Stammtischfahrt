@@ -18,6 +18,9 @@
     --rot1:#2f6f6a;
     --rot2:#5a4a86;
     --rot3:#8a4a2f;
+    --rot1-bright:#4fb3ab;
+    --rot2-bright:#9280c9;
+    --rot3-bright:#cf7a4f;
     --ok:#3f9d78;
     --warn:#c99a3a;
   }
@@ -113,7 +116,37 @@
   .icon-btn:hover{background:rgba(255,255,255,.08);color:var(--text)}
   .icon-btn.del:hover{color:#e0776a}
   .icon-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  footer{margin-top:22px;color:var(--text-dim);font-size:.8rem;text-align:center;line-height:1.7}
+  /* --- Karte --- */
+  .map-card{margin-top:22px;padding:22px}
+  .map-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:14px}
+  .map-head h2{margin:0;font-size:1.15rem;display:flex;align-items:center;gap:9px}
+  .map-head h2 svg{width:19px;height:19px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .map-head p{margin:0;color:var(--text-dim);font-size:.8rem}
+  .map-wrap{position:relative;max-width:400px;margin:0 auto}
+  .map-wrap svg.map{width:100%;height:auto;display:block;overflow:visible}
+  .de-outline{fill:rgba(255,255,255,.035);stroke:rgba(208,164,92,.35);stroke-width:1.4;stroke-linejoin:round}
+  .city-dot{cursor:pointer;transition:r .12s ease, filter .12s ease}
+  .city-dot.r1{fill:var(--rot1-bright)}
+  .city-dot.r2{fill:var(--rot2-bright)}
+  .city-dot.r3{fill:var(--rot3-bright)}
+  .dot-ring{fill:none;stroke:rgba(255,255,255,.85);stroke-width:1.3}
+  .map-tip{
+    position:absolute;left:0;top:0;transform:translate(-50%,-118%);
+    background:var(--navy-800);border:1px solid var(--line);border-radius:9px;
+    padding:9px 12px;font-size:.8rem;line-height:1.45;white-space:nowrap;
+    box-shadow:0 12px 28px rgba(0,0,0,.5);pointer-events:none;
+    opacity:0;visibility:hidden;transition:opacity .12s;z-index:10;
+  }
+  .map-tip.show{opacity:1;visibility:visible}
+  .map-tip .t-year{font-weight:700;font-variant-numeric:tabular-nums}
+  .map-tip .t-year.r1{color:var(--rot1-bright)}
+  .map-tip .t-year.r2{color:var(--rot2-bright)}
+  .map-tip .t-year.r3{color:var(--rot3-bright)}
+  .map-tip .t-where{font-weight:600}
+  .map-tip .t-sub{color:var(--text-dim);font-size:.74rem;margin-top:2px}
+  .map-foot{margin-top:12px;text-align:center;font-size:.72rem;color:var(--text-dim)}
+  .foot-tools{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+  footer{margin-top:18px;color:var(--text-dim);font-size:.8rem;text-align:center;line-height:1.7}
   .reset{background:transparent;color:var(--text-dim);text-decoration:underline;font-size:.8rem;padding:0}
   .reset:hover{color:var(--gold-soft)}
   .note-box{
@@ -125,7 +158,7 @@
   .scroll-hint{display:none;font-size:.72rem;color:var(--text-dim);margin:8px 4px 0;text-align:right}
   .overlay{position:fixed;inset:0;background:rgba(4,9,16,.72);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
   .overlay.open{display:flex}
-  .modal{width:100%;max-width:440px;background:var(--navy-800);border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  .modal{width:100%;max-width:440px;background:var(--navy-800);border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:0 30px 60px rgba(0,0,0,.5);max-height:92vh;overflow-y:auto}
   .modal h2{margin:0 0 20px;font-size:1.2rem;display:flex;align-items:center;gap:10px}
   .modal h2 svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.8}
   .field{margin-bottom:16px}
@@ -133,7 +166,8 @@
   .field input[type=number],.field input[type=text]{width:100%;padding:10px 12px;border-radius:8px;background:var(--navy-900);border:1px solid var(--line);color:var(--text);font-size:.95rem;font-family:inherit}
   .field input:focus{outline:none;border-color:var(--gold)}
   .hint{font-size:.72rem;color:var(--text-dim);margin-top:5px}
-  /* Checkbox-Zeile */
+  .row2{display:flex;gap:12px}
+  .row2 .field{flex:1;margin-bottom:0}
   .check{display:flex;align-items:flex-start;gap:10px;background:var(--navy-900);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
   .check input{width:18px;height:18px;margin-top:1px;accent-color:var(--gold);cursor:pointer;flex:0 0 auto}
   .check .ctext{font-size:.9rem}
@@ -180,15 +214,6 @@
       <span><i class="dot r3"></i>3. Rotation &middot; seit 2025</span>
     </div>
     <div class="tools">
-      <button class="btn btn-ghost" onclick="exportData()" title="Als data.json sichern (fürs Repo)">
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        data.json exportieren
-      </button>
-      <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()" title="Aus Datei laden">
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        Import
-      </button>
-      <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importData(event)">
       <button class="btn btn-add" onclick="openModal()">
         <svg viewBox="0 0 24 24" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Fahrt hinzufügen
@@ -214,9 +239,40 @@
   </div>
   <div class="scroll-hint">&larr; Tabelle seitlich wischen f&uuml;r Ausrichterspiel</div>
 
+  <!-- Karte der besuchten Orte -->
+  <div class="card map-card">
+    <div class="map-head">
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        Besuchte Orte
+      </h2>
+      <p>Punktfarbe = Rotation &middot; Mauszeiger/Tippen f&uuml;r Details</p>
+    </div>
+    <div class="map-wrap" id="mapWrap">
+      <svg class="map" id="mapSvg" viewBox="0 0 367 486" role="img" aria-label="Karte von Deutschland mit besuchten Orten">
+        <path class="de-outline" id="deOutline" d=""></path>
+        <g id="dots"></g>
+      </svg>
+      <div class="map-tip" id="mapTip"></div>
+    </div>
+    <div class="map-foot" id="mapFoot"></div>
+  </div>
+
   <div class="note-box">
     Es entscheidet immer ein <b>Ausrichterspiel</b>, wer als N&auml;chstes ausrichten muss &ndash; bis alle einmal dran waren, dann geht es von vorne los.
     Jahre mit unterstrichenem Datum verlinken auf das jeweilige <b>Programm-PDF</b> unter <code>Programme/JJJJ.pdf</code>.
+  </div>
+
+  <div class="foot-tools">
+    <button class="btn btn-ghost" onclick="exportData()" title="Als data.json sichern (fürs Repo)">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      data.json exportieren
+    </button>
+    <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()" title="Aus Datei laden">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Import
+    </button>
+    <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importData(event)">
   </div>
 
   <footer>
@@ -251,6 +307,18 @@
       <div class="hint">Das Spiel, das den nächsten Ausrichter bestimmt hat.</div>
     </div>
     <div class="field">
+      <label>Kartenposition (optional)</label>
+      <div class="row2">
+        <div class="field">
+          <input type="number" id="fLon" step="0.001" placeholder="Längengrad, z. B. 8.68">
+        </div>
+        <div class="field">
+          <input type="number" id="fLat" step="0.001" placeholder="Breitengrad, z. B. 50.11">
+        </div>
+      </div>
+      <div class="hint" id="geoHint">Für den Punkt auf der Karte. Ohne Angabe erscheint der Ort unter der Karte als „ohne Kartenposition".</div>
+    </div>
+    <div class="field">
       <label class="check">
         <input type="checkbox" id="fPdf">
         <span class="ctext">
@@ -267,27 +335,47 @@
 </div>
 
 <script>
-  const STORAGE_KEY = "stammtischfahrten_v3";
+  const STORAGE_KEY = "stammtischfahrten_v4";
   const DATA_URL = "data.json";
+
+  // Vereinfachte Deutschland-Silhouette (Längengrad, Breitengrad, im Uhrzeigersinn)
+  const OUTLINE = [
+    [8.65,54.90],[9.44,54.80],[10.15,54.47],[11.00,54.38],[11.46,53.95],
+    [12.10,54.17],[13.40,54.28],[14.21,53.87],[14.44,53.25],[14.64,52.57],
+    [14.76,51.55],[14.99,51.34],[14.31,51.05],[13.30,50.62],[12.35,50.17],
+    [12.55,49.92],[12.40,49.75],[13.03,49.31],[13.83,48.77],[13.01,47.71],
+    [12.88,47.62],[11.63,47.59],[10.45,47.55],[10.17,47.27],[9.55,47.53],
+    [8.87,47.65],[8.41,47.70],[7.69,47.56],[7.58,48.32],[8.20,48.97],
+    [7.62,49.05],[6.36,49.15],[6.52,49.81],[6.02,50.18],[6.16,50.62],
+    [5.87,51.05],[6.17,51.51],[6.03,51.86],[6.69,52.23],[7.07,52.39],
+    [6.98,53.06],[7.19,53.32],[7.02,53.55],[8.01,53.72],[8.15,53.47],
+    [8.50,53.55],[8.89,53.90],[9.00,54.02],[8.86,54.28],[8.60,54.55]
+  ];
+
+  // Projektion: Längen-/Breitengrad -> SVG-Koordinaten (muss zur viewBox passen)
+  const P_LON_MIN = 5.5, P_LAT_MAX = 55.2, P_KX = 37.75, P_KY = 60;
+  function project(lon, lat){
+    return { x: (lon - P_LON_MIN) * P_KX, y: (P_LAT_MAX - lat) * P_KY };
+  }
 
   // Fallback, falls data.json nicht erreichbar ist (z. B. lokal per file:// geöffnet)
   const FALLBACK_DATA = [
-    {year:2011, who:"Ben",      where:"Wernigerode",        game:"",              pdf:false},
-    {year:2012, who:"Torben",   where:"Konstanz",           game:"Kicker",        pdf:false},
-    {year:2013, who:"Falk",     where:"Bispingen",          game:"Kartfahren",    pdf:true},
-    {year:2014, who:"Benny",    where:"Goslar",             game:"",              pdf:true},
-    {year:2015, who:"Thorsten", where:"Bonn",               game:"",              pdf:true},
-    {year:2016, who:"Lars",     where:"Hannover",           game:"Lasertag",      pdf:true},
-    {year:2017, who:"Torben",   where:"Bremerhaven",        game:"Bierdeckel",    pdf:true},
-    {year:2018, who:"Lars",     where:"Quedlinburg",        game:"Bogenschiessen",pdf:true},
-    {year:2019, who:"Ben",      where:"Lüneburger Heide",   game:"",              pdf:true},
+    {year:2011, who:"Ben",      where:"Wernigerode",        game:"",              pdf:false, lon:10.786, lat:51.834},
+    {year:2012, who:"Torben",   where:"Konstanz",           game:"Kicker",        pdf:false, lon:9.175,  lat:47.660},
+    {year:2013, who:"Falk",     where:"Bispingen",          game:"Kartfahren",    pdf:true,  lon:9.992,  lat:53.087},
+    {year:2014, who:"Benny",    where:"Goslar",             game:"",              pdf:true,  lon:10.428, lat:51.906},
+    {year:2015, who:"Thorsten", where:"Bonn",               game:"",              pdf:true,  lon:7.098,  lat:50.737},
+    {year:2016, who:"Lars",     where:"Hannover",           game:"Lasertag",      pdf:true,  lon:9.732,  lat:52.376},
+    {year:2017, who:"Torben",   where:"Bremerhaven",        game:"Bierdeckel",    pdf:true,  lon:8.580,  lat:53.540},
+    {year:2018, who:"Lars",     where:"Quedlinburg",        game:"Bogenschiessen",pdf:true,  lon:11.151, lat:51.789},
+    {year:2019, who:"Ben",      where:"Lüneburger Heide",   game:"",              pdf:true,  lon:9.500,  lat:53.170},
     {year:2020, who:"",         where:"", game:"", note:"Corona",                 pdf:false},
-    {year:2021, who:"Thorsten", where:"Meerbusch",          game:"Poker",         pdf:true},
-    {year:2022, who:"Benny",    where:"Bremen",             game:"Hafenspiele",   pdf:true},
-    {year:2023, who:"Matze",    where:"Gütersloh",          game:"",              pdf:true},
-    {year:2024, who:"Falk",     where:"Hamburg",            game:"Bashroom",      pdf:true},
-    {year:2025, who:"Thorsten", where:"Köln",               game:"Minigolf",      pdf:true},
-    {year:2026, who:"Benny",    where:"Paderborn",          game:"Bowling",       pdf:true},
+    {year:2021, who:"Thorsten", where:"Meerbusch",          game:"Poker",         pdf:true,  lon:6.674,  lat:51.258},
+    {year:2022, who:"Benny",    where:"Bremen",             game:"Hafenspiele",   pdf:true,  lon:8.802,  lat:53.079},
+    {year:2023, who:"Matze",    where:"Gütersloh",          game:"",              pdf:true,  lon:8.378,  lat:51.906},
+    {year:2024, who:"Falk",     where:"Hamburg",            game:"Bashroom",      pdf:true,  lon:9.994,  lat:53.551},
+    {year:2025, who:"Thorsten", where:"Köln",               game:"Minigolf",      pdf:true,  lon:6.960,  lat:50.938},
+    {year:2026, who:"Benny",    where:"Paderborn",          game:"Bowling",       pdf:true,  lon:8.754,  lat:51.719},
     {year:2027, who:"Matze",    where:"", game:"",                                pdf:false}
   ];
 
@@ -307,6 +395,8 @@
           pdf: (x.pdf === true || x.pdf === "true")
         };
         if(x.note) o.note = x.note.toString();
+        const lon = parseFloat(x.lon), lat = parseFloat(x.lat);
+        if(!isNaN(lon) && !isNaN(lat)){ o.lon = lon; o.lat = lat; }
         return o;
       });
   }
@@ -344,6 +434,7 @@
       else { data = normalize(FALLBACK_DATA); baseSig = sigOf(data); isDirty = false; }
       setStatus("local", "data.json nicht erreichbar &ndash; lokaler Stand");
     }
+    buildOutline();
     render();
   }
 
@@ -392,6 +483,10 @@
     if(year <= 2024) return "r2";
     return "r3";
   }
+  function coordsFor(row){
+    if(typeof row.lon === "number" && typeof row.lat === "number") return [row.lon, row.lat];
+    return null;
+  }
 
   const editIcon = '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
   const delIcon  = '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
@@ -399,6 +494,16 @@
   const pdfIcon  = '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
 
   function esc(s){return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+  function buildOutline(){
+    let d = "";
+    OUTLINE.forEach((p,i)=>{
+      const q = project(p[0], p[1]);
+      d += (i ? "L" : "M") + q.x.toFixed(1) + " " + q.y.toFixed(1) + " ";
+    });
+    d += "Z";
+    document.getElementById("deOutline").setAttribute("d", d);
+  }
 
   function render(){
     data.sort((a,b)=>a.year-b.year);
@@ -415,7 +520,6 @@
       const gameCell = row.game ? '<span class="game">'+diceIcon+esc(row.game)+'</span>'
         : (row.note ? '' : '<span class="muted">&ndash;</span>');
 
-      // Jahr klickbar machen, wenn für dieses Jahr eine PDF markiert ist
       const yearCell = row.pdf
         ? '<a href="Programme/'+row.year+'.pdf" target="_blank" rel="noopener" class="year-link" title="Programm '+row.year+' (PDF)">'+row.year+pdfIcon+'</a>'
         : row.year;
@@ -431,13 +535,82 @@
         '</td>';
       tb.appendChild(tr);
     });
+    renderMap();
   }
+
+  const SVGNS = "http://www.w3.org/2000/svg";
+  function renderMap(){
+    const g = document.getElementById("dots");
+    const tip = document.getElementById("mapTip");
+    g.innerHTML = "";
+    tip.classList.remove("show");
+
+    const unmapped = [];
+    data.forEach(row=>{
+      const c = coordsFor(row);
+      if(!c){
+        if(row.where) unmapped.push(row.year + " (" + row.where + ")");
+        return;
+      }
+      const p = project(c[0], c[1]);
+      const rot = rotationClass(row.year);
+
+      const ring = document.createElementNS(SVGNS, "circle");
+      ring.setAttribute("class", "dot-ring");
+      ring.setAttribute("cx", p.x.toFixed(1));
+      ring.setAttribute("cy", p.y.toFixed(1));
+      ring.setAttribute("r", "5.4");
+      g.appendChild(ring);
+
+      const dot = document.createElementNS(SVGNS, "circle");
+      dot.setAttribute("class", "city-dot " + rot);
+      dot.setAttribute("cx", p.x.toFixed(1));
+      dot.setAttribute("cy", p.y.toFixed(1));
+      dot.setAttribute("r", "5.2");
+
+      const show = ()=>{
+        const who = row.who ? esc(row.who) : "offen";
+        const game = row.game ? '<div class="t-sub">Spiel: '+esc(row.game)+'</div>' : '';
+        tip.innerHTML =
+          '<div><span class="t-year '+rot+'">'+row.year+'</span> &middot; <span class="t-where">'+esc(row.where)+'</span></div>'+
+          '<div class="t-sub">Ausrichter: '+who+'</div>'+ game;
+        const wrap = document.getElementById("mapWrap").getBoundingClientRect();
+        const cr = dot.getBoundingClientRect();
+        tip.style.left = (cr.left - wrap.left + cr.width/2) + "px";
+        tip.style.top  = (cr.top - wrap.top) + "px";
+        tip.classList.add("show");
+        dot.setAttribute("r", "7");
+      };
+      const hide = ()=>{ tip.classList.remove("show"); dot.setAttribute("r", "5.2"); };
+
+      dot.addEventListener("mouseenter", show);
+      dot.addEventListener("mouseleave", hide);
+      dot.addEventListener("click", (e)=>{ e.stopPropagation(); show(); });
+      g.appendChild(dot);
+    });
+
+    const foot = document.getElementById("mapFoot");
+    foot.innerHTML = unmapped.length
+      ? "Ohne Kartenposition: " + unmapped.join(", ")
+      : "";
+  }
+  // Tippen ins Leere schließt den Tooltip (mobil)
+  document.addEventListener("click", ()=> document.getElementById("mapTip").classList.remove("show"));
 
   function refreshPdfSub(){
     const y = parseInt(document.getElementById("fYear").value,10);
     const sub = document.getElementById("pdfSub");
     if(y) sub.innerHTML = 'Das Jahr wird als Link dargestellt und öffnet <code>Programme/'+y+'.pdf</code>.';
     else sub.innerHTML = 'Das Jahr wird als Link dargestellt und öffnet <code>Programme/JJJJ.pdf</code>.';
+  }
+  function refreshGeoHint(){
+    const lon = parseFloat(document.getElementById("fLon").value);
+    const lat = parseFloat(document.getElementById("fLat").value);
+    const hint = document.getElementById("geoHint");
+    if(!isNaN(lon) && !isNaN(lat))
+      hint.innerHTML = 'Für die Karte: <b style="color:var(--gold-soft)">Punkt wird gesetzt</b> (Längengrad '+lon+', Breitengrad '+lat+').';
+    else
+      hint.innerHTML = 'Für den Punkt auf der Karte. Ohne Angabe erscheint der Ort unter der Karte als „ohne Kartenposition". Koordinaten z. B. per Rechtsklick in Google Maps.';
   }
 
   function openModal(i){
@@ -449,6 +622,8 @@
       document.getElementById("fWho").value   = data[idx].who || (data[idx].note || "");
       document.getElementById("fWhere").value = data[idx].where || "";
       document.getElementById("fGame").value  = data[idx].game || "";
+      document.getElementById("fLon").value   = (typeof data[idx].lon === "number") ? data[idx].lon : "";
+      document.getElementById("fLat").value   = (typeof data[idx].lat === "number") ? data[idx].lat : "";
       document.getElementById("fPdf").checked = !!data[idx].pdf;
     }else{
       const next = data.length ? Math.max(...data.map(d=>d.year))+1 : 2011;
@@ -456,9 +631,11 @@
       document.getElementById("fWho").value   = "";
       document.getElementById("fWhere").value = "";
       document.getElementById("fGame").value  = "";
+      document.getElementById("fLon").value   = "";
+      document.getElementById("fLat").value   = "";
       document.getElementById("fPdf").checked = false;
     }
-    refreshPdfSub();
+    refreshPdfSub(); refreshGeoHint();
     document.getElementById("overlay").classList.add("open");
     document.getElementById("fYear").focus();
   }
@@ -470,9 +647,12 @@
     const who = document.getElementById("fWho").value.trim();
     const where = document.getElementById("fWhere").value.trim();
     const game = document.getElementById("fGame").value.trim();
+    const lon = parseFloat(document.getElementById("fLon").value);
+    const lat = parseFloat(document.getElementById("fLat").value);
     const pdf = document.getElementById("fPdf").checked;
     if(!year){ alert("Bitte ein Jahr angeben."); return; }
     const entry = {year, who, where, game, pdf};
+    if(!isNaN(lon) && !isNaN(lat)){ entry.lon = lon; entry.lat = lat; }
     if(idx>=0){
       if(!who && data[idx].note) entry.note = data[idx].note;
       data[idx] = entry;
@@ -489,7 +669,7 @@
   }
 
   function exportData(){
-    const payload = { app:"stammtischfahrten", version:3, fahrten:data };
+    const payload = { app:"stammtischfahrten", version:4, fahrten:data };
     const blob = new Blob([JSON.stringify(payload, null, 2) + "\n"], {type:"application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -518,6 +698,8 @@
   }
 
   document.getElementById("fYear").addEventListener("input", refreshPdfSub);
+  document.getElementById("fLon").addEventListener("input", refreshGeoHint);
+  document.getElementById("fLat").addEventListener("input", refreshGeoHint);
   document.getElementById("overlay").addEventListener("click", e=>{ if(e.target.id==="overlay") closeModal(); });
   document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
 
