@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Stammtischfahrten</title>
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/png" href="./favicon.png">
 <style>
   :root{
     --navy-900:#0b1626;
@@ -164,7 +164,7 @@
   .modal h2 svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.8}
   .field{margin-bottom:16px}
   .field label{display:block;font-size:.75rem;letter-spacing:.8px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
-  .field input[type=number],.field input[type=text]{width:100%;padding:10px 12px;border-radius:8px;background:var(--navy-900);border:1px solid var(--line);color:var(--text);font-size:.95rem;font-[...]
+  .field input[type=number],.field input[type=text]{width:100%;padding:10px 12px;border-radius:8px;background:var(--navy-900);border:1px solid var(--line);color:var(--text);font-size:.95rem;font-family:inherit}
   .field input:focus{outline:none;border-color:var(--gold)}
   .hint{font-size:.72rem;color:var(--text-dim);margin-top:5px}
   .row2{display:flex;gap:12px}
@@ -277,7 +277,7 @@
   </div>
 
   <footer>
-    <b style="color:var(--gold-soft)">So bleibt es für alle aktuell:</b> Zum dauerhaften Speichern die Liste <b>„data.json exportieren"</b> und die Datei im GitHub-Repo ersetzen (Commit). Beim[...]
+    <b style="color:var(--gold-soft)">So bleibt es für alle aktuell:</b> Zum dauerhaften Speichern die Liste <b>„data.json exportieren“</b> und die Datei im GitHub-Repo ersetzen (Commit). Beim nächsten Laden wird wieder der zentrale Stand aus <code>data.json</code> verwendet.
     Lokale Änderungen liegen nur in diesem Browser, bis sie ins Repo übernommen werden. &middot;
     <button class="reset" onclick="reloadCentral()">Lokale Änderungen verwerfen</button>
   </footer>
@@ -337,7 +337,7 @@
 
 <script>
   const STORAGE_KEY = "stammtischfahrten_v4";
-  const DATA_URL = "data.json";
+  const DATA_URL = "./data.json";
 
   // Vereinfachte Deutschland-Silhouette (Längengrad, Breitengrad, im Uhrzeigersinn)
   const OUTLINE = [
@@ -468,7 +468,7 @@
       badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span id="statusLabel">Zentraler Stand</span>';
       reload.style.display = "none";
     }else{
-      badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><span id="statusLabel">Lokale Än[...]
+      badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><span id="statusLabel">Lokale Änderungen</span>';
       reload.style.display = "inline";
     }
   }
@@ -490,8 +490,8 @@
   }
 
   const editIcon = '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
-  const delIcon  = '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a[...]
-  const diceIcon = '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1[...]
+  const delIcon  = '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+  const diceIcon = '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg>';
   const pdfIcon  = '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
 
   function esc(s){return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
